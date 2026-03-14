@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SmartShare – Turning Surplus into Support</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#16a34a;--gl:#dcfce7;--gm:#22c55e;--gd:#14532d;
+  --o:#ea580c;--ol:#fff7ed;--om:#f97316;
+  --navy:#0f172a;--nm:#1e293b;--sl:#475569;--mt:#94a3b8;
+  --bg:#f8fafc;--wh:#fff;--br:#e2e8f0;--br2:#f1f5f9;
+  --ff:'Plus Jakarta Sans',sans-serif;
+  --r:12px;--rl:18px;--rxl:24px;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --shm:0 4px 16px rgba(0,0,0,.10);--shl:0 8px 32px rgba(0,0,0,.13);
+}
+html,body{font-family:var(--ff);background:var(--bg);color:var(--navy);min-height:100vh}
+button{font-family:var(--ff);cursor:pointer;transition:all .16s}
+input,select,textarea{font-family:var(--ff)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px}
+
+/* PAGES */
+.page{display:none!important}.page.show{display:block!important}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 60px;height:64px;background:var(--wh);border-bottom:1px solid var(--br);position:sticky;top:0;z-index:200}
+.logo{font-size:21px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;cursor:pointer;letter-spacing:-.3px}
+.logo-dot{width:9px;height:9px;background:var(--gm);border-radius:50%;display:inline-block}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-link{padding:8px 14px;font-size:13.5px;font-weight:500;color:var(--sl);border-radius:8px;cursor:pointer;border:none;background:none;transition:all .15s}
+.nav-link:hover{background:var(--gl);color:var(--g)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;font-size:13.5px;font-weight:600;border:none;cursor:pointer;transition:all .17s;text-decoration:none;white-space:nowrap}
+.btn-g{background:var(--g);color:#fff}.btn-g:hover{background:#15803d;transform:translateY(-1px);box-shadow:0 4px 14px rgba(22,163,74,.35)}
+.btn-o{background:var(--o);color:#fff}.btn-o:hover{background:#c2410c;transform:translateY(-1px)}
+.btn-s{background:var(--bg);color:var(--navy);border:1px solid var(--br)}.btn-s:hover{background:var(--gl);border-color:var(--g);color:var(--g)}
+.btn-d{background:#fef2f2;color:#b91c1c;border:1px solid #fee2e2}.btn-d:hover{background:#fee2e2}
+.btn-lg{padding:13px 30px;font-size:15px;border-radius:12px}
+.btn-sm{padding:6px 13px;font-size:12.5px}
+.btn-xs{padding:4px 10px;font-size:12px}
+.btn-wh{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25)}.btn-wh:hover{background:rgba(255,255,255,.22)}
+
+/* HERO */
+.hero{background:var(--navy);padding:88px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-80px;top:-80px;width:480px;height:480px;background:radial-gradient(circle,rgba(34,197,94,.13) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;left:-60px;bottom:-60px;width:380px;height:380px;background:radial-gradient(circle,rgba(234,88,12,.08) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;position:relative;z-index:1}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.28);color:#4ade80;font-size:12.5px;font-weight:600;padding:5px 14px;border-radius:99px;margin-bottom:20px;letter-spacing:.2px}
+.hero h1{font-size:54px;font-weight:800;color:#fff;line-height:1.07;margin-bottom:18px;letter-spacing:-.5px}
+.hero h1 em{color:#4ade80;font-style:normal}
+.hero-p{font-size:16px;color:rgba(255,255,255,.62);line-height:1.78;margin-bottom:30px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px 20px}
+.stat-big{font-size:38px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.stat-big span{color:#4ade80}
+.stat-lbl{font-size:12.5px;color:rgba(255,255,255,.45);margin-top:4px}
+
+/* TICKER */
+.ticker{background:var(--g);padding:10px 0;overflow:hidden}
+.ticker-tr{display:flex;gap:48px;white-space:nowrap;animation:tick 26s linear infinite;width:max-content}
+.ticker-it{color:#fff;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px}
+.ticker-sep{width:4px;height:4px;background:rgba(255,255,255,.4);border-radius:50%;flex-shrink:0}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+.section{padding:80px 60px;max-width:1160px;margin:0 auto}
+.sec-tag{font-size:11.5px;font-weight:700;color:var(--g);letter-spacing:1.6px;text-transform:uppercase;margin-bottom:10px}
+.sec-h{font-size:38px;font-weight:800;color:var(--navy);line-height:1.15;margin-bottom:12px;letter-spacing:-.3px}
+.sec-p{font-size:15.5px;color:var(--sl);max-width:520px;line-height:1.72}
+.bg-light{background:var(--bg);border-top:1px solid var(--br);border-bottom:1px solid var(--br)}
+.bg-dark{background:var(--navy)}
+.bg-dark .sec-h{color:#fff}
+.bg-dark .sec-tag{color:#4ade80}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px}
+.step{text-align:center;padding:24px 16px}
+.step-n{font-size:11px;font-weight:700;color:var(--g);letter-spacing:1px;margin-bottom:10px}
+.step-ico{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px}
+.step-t{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.step-d{font-size:13.5px;color:var(--sl);line-height:1.65}
+
+/* BENEFIT CARDS */
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.bcard{background:var(--wh);border:1px solid var(--br);border-radius:var(--rl);padding:24px;box-shadow:var(--sh);transition:all .18s}
+.bcard:hover{border-color:var(--g);transform:translateY(-3px);box-shadow:var(--shm)}
+.bcard-ico{font-size:30px;margin-bottom:14px}
+.bcard-t{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.bcard-d{font-size:13.5px;color:var(--sl);line-height:1.65}
+
+/* IMPACT NUMS */
+.imp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px}
+.imp-n{border-left:3px solid #4ade80;padding-left:16px}
+.imp-big{font-size:40px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.imp-big em{color:#4ade80;font-style:normal}
+.imp-lbl{font-size:12.5px;color:rgba(255,255,255,.42);margin-top:4px}
+
+/* CTA SECTION */
+.cta-sec{background:linear-gradient(135deg,var(--g),#15803d);padding:80px 60px;text-align:center}
+.cta-sec h2{font-size:42px;font-weight:800;color:#fff;margin-bottom:14px;letter-spacing:-.3px}
+.cta-sec p{font-size:16px;color:rgba(255,255,255,.78);margin-bottom:30px}
+.footer{background:var(--navy);padding:28px 60px;display:flex;align-items:center;justify-content:space-between}
+.footer-logo{font-size:18px;font-weight:800;color:#fff}
+.footer-p{font-size:12.5px;color:rgba(255,255,255,.35)}
+
+/* LOGIN */
+.login-page{min-height:100vh;background:linear-gradient(135deg,#f0fdf4 0%,#e0f2fe 100%);display:flex;align-items:center;justify-content:center;padding:32px}
+.login-card{background:var(--wh);border:1px solid var(--br);border-radius:24px;padding:40px;width:100%;max-width:460px;box-shadow:var(--shl)}
+.login-logo{font-size:22px;font-weight:800;color:var(--g);text-align:center;margin-bottom:4px}
+.login-sub{font-size:13.5px;color:var(--mt);text-align:center;margin-bottom:26px}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.role-chip{padding:15px 10px;border:2px solid var(--br);border-radius:12px;text-align:center;cursor:pointer;transition:all .15s;background:var(--wh)}
+.role-chip:hover{border-color:var(--gm);background:var(--gl)}
+.role-chip.sel{border-color:var(--g);background:var(--gl);box-shadow:0 0 0 3px rgba(22,163,74,.12)}
+.rc-ico{font-size:22px;margin-bottom:6px}
+.rc-n{font-size:13px;font-weight:700;color:var(--navy)}
+.rc-d{font-size:11px;color:var(--mt);margin-top:2px}
+.demo-box{background:var(--gl);border:1px solid #bbf7d0;border-radius:10px;padding:12px 15px;font-size:12.5px;color:#15803d;margin-bottom:18px}
+.form-g{margin-bottom:16px}
+.f-lbl{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.f-inp{width:100%;padding:10px 14px;border:1.5px solid var(--br);border-radius:10px;font-size:14px;background:var(--wh);color:var(--navy);outline:none;transition:all .15s}
+.f-inp:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+.f-sel{width:100%;padding:10px 14px;border:1.5px solid var(--br);border-radius:10px;font-size:14px;background:var(--wh);color:var(--navy);outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23475569' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer}
+.f-sel:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* DASHBOARD LAYOUT */
+.dash-layout{display:flex;min-height:100vh}
+.sidebar{width:236px;background:var(--navy);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;overflow-y:auto}
+.sb-brand{padding:22px 18px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-logo{font-size:19px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px}
+.sb-role{font-size:11px;color:rgba(255,255,255,.38);margin-top:3px}
+.sb-nav{padding:10px 8px;flex:1}
+.sb-sec{font-size:10px;letter-spacing:1.2px;color:rgba(255,255,255,.28);padding:14px 10px 4px;font-weight:700}
+.sb-it{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.58);cursor:pointer;transition:all .14s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
+.sb-it:hover{background:rgba(255,255,255,.07);color:#fff}
+.sb-it.act{background:rgba(34,197,94,.18);color:#fff;border-left:2px solid #4ade80}
+.sb-ic{font-size:15px;width:18px;text-align:center}
+.sb-bot{padding:14px 8px;border-top:1px solid rgba(255,255,255,.06)}
+.dash-content{flex:1;overflow-y:auto;background:var(--bg)}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 26px;background:var(--wh);border-bottom:1px solid var(--br);position:sticky;top:0;z-index:100}
+.tb-title{font-size:19px;font-weight:800;color:var(--navy);letter-spacing:-.2px}
+.tb-sub{font-size:12.5px;color:var(--mt);margin-top:2px}
+.tb-r{display:flex;align-items:center;gap:10px}
+.notif-btn{width:36px;height:36px;border-radius:10px;background:var(--bg);border:1px solid var(--br);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;position:relative;transition:all .15s}
+.notif-btn:hover{background:var(--gl);border-color:var(--g)}
+.n-dot{width:8px;height:8px;background:#ef4444;border-radius:50%;position:absolute;top:6px;right:6px;border:2px solid var(--wh)}
+.av{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--g),var(--gd));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;cursor:pointer}
+.main{padding:24px}
+
+/* METRIC CARDS */
+.m4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
+.mc{background:var(--wh);border:1px solid var(--br);border-radius:var(--rl);padding:20px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.mc::after{content:'';position:absolute;top:0;right:0;width:70px;height:70px;border-radius:0 var(--rl) 0 100%;opacity:.07}
+.mc.cg::after{background:var(--g)}.mc.co::after{background:var(--o)}.mc.cb::after{background:#3b82f6}.mc.cp::after{background:#8b5cf6}
+.mc-ico{font-size:24px;margin-bottom:10px}
+.mc-lbl{font-size:12px;color:var(--mt);font-weight:500}
+.mc-val{font-size:27px;font-weight:800;color:var(--navy);margin-top:4px;letter-spacing:-.3px}
+.mc-ch{font-size:12px;margin-top:5px;color:var(--g)}
+
+/* BADGES */
+.bdg{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.bdg-g{background:#dcfce7;color:#15803d}.bdg-o{background:#fff7ed;color:#c2410c}
+.bdg-b{background:#eff6ff;color:#1d4ed8}.bdg-gr{background:#f1f5f9;color:#475569}
+.bdg-r{background:#fef2f2;color:#b91c1c}.bdg-p{background:#f5f3ff;color:#7c3aed}
+.bdg-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.bdg-g .bdg-dot{background:#16a34a}.bdg-o .bdg-dot{background:var(--o)}.bdg-r .bdg-dot{background:#dc2626}.bdg-b .bdg-dot{background:#3b82f6}
+
+/* CARDS */
+.card{background:var(--wh);border:1px solid var(--br);border-radius:var(--rl);padding:20px;box-shadow:var(--sh)}
+.card-t{font-size:14.5px;font-weight:700;color:var(--navy);margin-bottom:14px}
+
+/* TABLE */
+.tw{background:var(--wh);border:1px solid var(--br);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh)}
+.tw-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--br)}
+.tw-t{font-size:14.5px;font-weight:700;color:var(--navy)}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--bg)}
+th{text-align:left;padding:9px 16px;font-size:11px;font-weight:700;color:var(--mt);letter-spacing:.6px;text-transform:uppercase;border-bottom:1px solid var(--br)}
+td{padding:12px 16px;font-size:13.5px;border-bottom:1px solid var(--br2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background .1s}tbody tr:hover td{background:#f8fafc}
+.td-m{font-weight:600;color:var(--navy)}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.g2-3{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.mb16{margin-bottom:16px}.mb20{margin-bottom:20px}
+.flex{display:flex;align-items:center}.flex-b{display:flex;align-items:center;justify-content:space-between}
+.gap8{gap:8px}.gap12{gap:12px}
+
+/* TYPE TABS */
+.ttabs{display:flex;gap:10px;margin-bottom:4px}
+.ttab{flex:1;padding:14px 10px;border:2px solid var(--br);border-radius:12px;text-align:center;cursor:pointer;transition:all .15s;background:var(--wh)}
+.ttab:hover{border-color:var(--gm);background:var(--gl)}
+.ttab.on{border-color:var(--g);background:var(--gl)}
+.tt-i{font-size:26px;display:block;margin-bottom:6px}
+.tt-l{font-size:13px;font-weight:700;color:var(--navy)}
+.tt-d{font-size:11px;color:var(--mt);margin-top:2px}
+
+/* TIMELINE */
+.tl{display:flex;align-items:flex-start}
+.tl-s{display:flex;flex-direction:column;align-items:center;flex:1}
+.tl-d{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;z-index:1}
+.tl-dn{background:var(--g);color:#fff;box-shadow:0 0 0 4px rgba(22,163,74,.15)}
+.tl-ac{background:var(--o);color:#fff;box-shadow:0 0 0 4px rgba(234,88,12,.18);animation:pulse 2s infinite}
+.tl-pd{background:var(--br2);color:var(--mt);border:2px solid var(--br)}
+.tl-lb{font-size:10.5px;font-weight:600;color:var(--mt);margin-top:7px;text-align:center;max-width:56px;line-height:1.3}
+.tl-dn-lb{color:var(--g)}.tl-ac-lb{color:var(--o)}
+.tl-ln{flex:1;height:2px;margin-top:15px;background:var(--br)}
+.tl-dn-ln{background:var(--g)}
+
+/* MATCH CARD */
+.mc2{background:var(--wh);border:1.5px solid var(--br);border-radius:var(--rl);padding:15px;display:flex;align-items:center;gap:13px;box-shadow:var(--sh);transition:all .17s;margin-bottom:10px;position:relative}
+.mc2:hover{border-color:var(--g);box-shadow:var(--shm)}
+.mc2.best{border-color:var(--g);background:linear-gradient(to right,#f0fdf4,#fff)}
+.ms{width:52px;height:52px;border-radius:14px;background:var(--gl);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.ms-p{font-size:17px;font-weight:800;color:var(--g);line-height:1}
+.ms-w{font-size:8px;font-weight:700;color:var(--g);letter-spacing:.5px;margin-top:1px}
+.mi{flex:1}
+.mi-n{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.mi-m{font-size:12px;color:var(--mt);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mi-tg{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px}
+.tg-g{background:var(--gl);color:#15803d}.tg-o{background:var(--ol);color:#c2410c}
+.tg-b{background:#eff6ff;color:#1d4ed8}.tg-r{background:#fef2f2;color:#b91c1c}
+.best-badge{background:linear-gradient(135deg,var(--g),#15803d);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;display:inline-flex;align-items:center;gap:4px;position:absolute;top:10px;right:10px}
+
+/* NGO CARDS */
+.ngoc{background:var(--wh);border:1px solid var(--br);border-radius:var(--rl);padding:18px;box-shadow:var(--sh);transition:all .18s}
+.ngoc:hover{border-color:var(--g);transform:translateY(-2px);box-shadow:var(--shm)}
+.ngo-av{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.cap-b{height:5px;background:var(--br2);border-radius:99px;overflow:hidden;margin-top:5px}
+.cap-f{height:100%;border-radius:99px;background:var(--g)}
+.cap-f.w{background:var(--o)}.cap-f.cr{background:#ef4444}
+
+/* MAP MOCK */
+.map-box{background:#e8f5e9;border-radius:var(--rl);border:1px solid var(--br);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.map-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.07) 1px,transparent 1px);background-size:28px 28px}
+.map-road{position:absolute;background:rgba(255,255,255,.75)}
+.map-lbl{position:absolute;background:#fff;border-radius:6px;padding:2px 7px;font-size:10px;font-weight:700;color:var(--navy);box-shadow:0 1px 6px rgba(0,0,0,.15);white-space:nowrap}
+.map-pin{position:absolute;width:26px;height:26px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.map-pin span{transform:rotate(45deg);font-size:11px;line-height:1;display:block}
+.pulse-ring{position:absolute;border-radius:50%;border:2px solid rgba(234,88,12,.4);animation:pulsering 2s infinite}
+@keyframes pulsering{0%{transform:scale(.8);opacity:.9}100%{transform:scale(2.2);opacity:0}}
+
+/* VOLUNTEER */
+.task-card{background:var(--wh);border:1px solid var(--br);border-radius:var(--rl);padding:18px;box-shadow:var(--sh);margin-bottom:16px}
+.route-r{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mt);margin:10px 0}
+.r-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.r-line{flex:1;height:0;border-top:2px dashed var(--br)}
+
+/* NOTIF FEED */
+.nf-it{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid var(--br2)}
+.nf-it:last-child{border-bottom:none}
+.nf-d{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.nf-tx{font-size:13px;color:var(--navy);line-height:1.5}
+.nf-tm{font-size:11.5px;color:var(--mt);margin-top:2px}
+
+/* BAR CHART */
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:140px;padding:0 4px}
+.bc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px}
+.bc-b{border-radius:6px 6px 0 0;width:100%;transition:opacity .2s;cursor:pointer}
+.bc-b:hover{opacity:.8}
+.bc-v{font-size:10px;font-weight:700;color:var(--sl)}
+.bc-l{font-size:10.5px;color:var(--mt);font-weight:500}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:9px;z-index:9999}
+.toast{background:var(--navy);color:#fff;padding:11px 17px;border-radius:12px;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:10px;animation:tin .3s ease;box-shadow:var(--shl);max-width:340px;min-width:250px}
+.toast.ts{border-left:3px solid var(--gm)}.toast.tw{border-left:3px solid var(--om)}.toast.ti{border-left:3px solid #60a5fa}
+.t-ico{font-size:17px;flex-shrink:0}.t-msg{flex:1;line-height:1.4}
+.t-x{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;flex-shrink:0;border:none;color:#fff}
+.t-x:hover{background:rgba(255,255,255,.25)}
+@keyframes tin{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ANIMATIONS */
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 7px rgba(34,197,94,0)}}
+@keyframes fadein{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.fi{animation:fadein .3s ease}
+
+/* CAP BAR NEED */
+.need-row{margin-bottom:13px}
+.need-lbl{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+
+/* PROFILE */
+.profile-row{display:flex;padding:9px 0;border-bottom:1px solid var(--br2);font-size:13px}
+.profile-row:last-child{border-bottom:none}
+.pr-l{width:140px;color:var(--mt);font-weight:500;flex-shrink:0}
+.pr-v{font-weight:600;color:var(--navy)}
+
+/* DONUT SVG - will use inline */
+.donut-wrap{display:flex;align-items:center;gap:22px}
+.dl-item{display:flex;align-items:center;gap:8px;font-size:12.5px;margin-bottom:10px}
+.dl-sq{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* LEADERBOARD */
+.lb-rank{font-size:18px;font-weight:900}
+
+@media(max-width:860px){
+  .m4{grid-template-columns:1fr 1fr}.g2,.g3,.g2-3{grid-template-columns:1fr}
+  .steps,.benefits,.imp-grid{grid-template-columns:1fr 1fr}
+  .sidebar{display:none}.nav{padding:0 20px}.hero{padding:60px 20px}
+  .hero-inner{grid-template-columns:1fr}.stats-grid{display:none}
+  .section{padding:60px 20px}.cta-sec,.footer{padding:60px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== LANDING PAGE ==================== -->
+<div id="pg-home" class="page show">
+  <nav class="nav">
+    <div class="logo"><span class="logo-dot"></span>SmartShare</div>
+    <div class="nav-r">
+      <button class="nav-link" onclick="scrollTo('how')">How it works</button>
+      <button class="nav-link" onclick="scrollTo('impact')">Impact</button>
+      <button class="btn btn-s" onclick="show('pg-login')">Sign In</button>
+      <button class="btn btn-g" onclick="show('pg-login')">Get Started →</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-pill">🌱 Hackathon Prototype 2026</div>
+        <h1>Turning <em>Surplus</em><br/>into <em>Support</em></h1>
+        <p class="hero-p">SmartShare connects donors with verified orphanages, old-age homes & NGOs in real time — reducing waste and creating measurable social impact through AI-powered matching.</p>
+        <div class="hero-btns">
+          <button class="btn btn-g btn-lg" onclick="show('pg-login')">Start Donating →</button>
+          <button class="btn btn-wh btn-lg" onclick="show('pg-impact')">View Impact</button>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-big">14,<span>892</span></div><div class="stat-lbl">Meals Saved This Month</div></div>
+        <div class="stat-box"><div class="stat-big">3,<span>241</span></div><div class="stat-lbl">Clothes Redistributed</div></div>
+        <div class="stat-box"><div class="stat-big"><span>84</span></div><div class="stat-lbl">NGOs Connected</div></div>
+        <div class="stat-box"><div class="stat-big">₹<span>6.2L</span></div><div class="stat-lbl">Monetary Raised</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-tr" id="ticker-tr">
+      <div class="ticker-it"><div class="ticker-sep"></div>✅ Hotel Sunrise donated 120 meals → Asha Orphanage</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>🧥 WedWear Events donated 200 garments → GreenHope NGO</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>🚚 Volunteer Arjun picked up — ETA 18 mins to Nanhi Dua</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>💰 Tech Corp CSR fund ₹50,000 → Senior Care Trust</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>🍽️ 500 portions delivered to Rainbow Shelter in 22 mins</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>✅ Hotel Sunrise donated 120 meals → Asha Orphanage</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>🧥 WedWear Events donated 200 garments → GreenHope NGO</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>🚚 Volunteer Arjun picked up — ETA 18 mins to Nanhi Dua</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>💰 Tech Corp CSR fund ₹50,000 → Senior Care Trust</div>
+      <div class="ticker-it"><div class="ticker-sep"></div>🍽️ 500 portions delivered to Rainbow Shelter in 22 mins</div>
+    </div>
+  </div>
+
+  <div id="how" style="background:#fff">
+    <div class="section">
+      <div class="sec-tag">How It Works</div>
+      <div class="sec-h">From surplus to smiles in 4 simple steps</div>
+      <div class="steps">
+        <div class="step"><div class="step-n">STEP 01</div><div class="step-ico" style="background:#dcfce7">📤</div><div class="step-t">Post a Donation</div><p class="step-d">Add food, clothes, or money with pickup location in under 2 minutes.</p></div>
+        <div class="step"><div class="step-n">STEP 02</div><div class="step-ico" style="background:#fff7ed">🤖</div><div class="step-t">AI Matching</div><p class="step-d">Smart engine scores nearby NGOs by distance, urgency & need level.</p></div>
+        <div class="step"><div class="step-n">STEP 03</div><div class="step-ico" style="background:#eff6ff">✅</div><div class="step-t">NGO Accepts</div><p class="step-d">Verified organizations accept — volunteer auto-assigned instantly.</p></div>
+        <div class="step"><div class="step-n">STEP 04</div><div class="step-ico" style="background:#f5f3ff">🚚</div><div class="step-t">Track & Deliver</div><p class="step-d">Real-time tracking until delivery confirmed and impact recorded.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-light">
+    <div class="section">
+      <div class="sec-tag">Who We Serve</div>
+      <div class="sec-h">Built for every link in the giving chain</div>
+      <div class="benefits">
+        <div class="bcard"><div class="bcard-ico">🤲</div><div class="bcard-t">Donors</div><p class="bcard-d">Individuals, restaurants, event organizers & retailers post surplus in minutes.</p></div>
+        <div class="bcard"><div class="bcard-ico">🏢</div><div class="bcard-t">NGOs & Shelters</div><p class="bcard-d">Orphanages, old-age homes & verified NGOs receive smart-matched donations.</p></div>
+        <div class="bcard"><div class="bcard-ico">🏍️</div><div class="bcard-t">Volunteers</div><p class="bcard-d">Community volunteers see available tasks, accept pickups and track deliveries.</p></div>
+        <div class="bcard"><div class="bcard-ico">🛡️</div><div class="bcard-t">Admin</div><p class="bcard-d">Platform moderators verify NGOs, manage users and monitor live analytics.</p></div>
+        <div class="bcard"><div class="bcard-ico">🤖</div><div class="bcard-t">AI Matching</div><p class="bcard-d">Prioritizes expiring food, matches types to NGO needs, scores by urgency & distance.</p></div>
+        <div class="bcard"><div class="bcard-ico">📊</div><div class="bcard-t">Impact Tracking</div><p class="bcard-d">Every donation creates measurable impact — meals saved, waste reduced, visible live.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="impact" class="bg-dark">
+    <div class="section" style="max-width:1100px">
+      <div class="sec-tag">Platform Impact</div>
+      <div class="sec-h">Every number is a life touched</div>
+      <div class="imp-grid">
+        <div class="imp-n"><div class="imp-big">14,<em>892</em></div><div class="imp-lbl">Meals saved this month</div></div>
+        <div class="imp-n"><div class="imp-big">3,<em>241</em></div><div class="imp-lbl">Garments redistributed</div></div>
+        <div class="imp-n"><div class="imp-big">₹<em>6.2L</em></div><div class="imp-lbl">Monetary raised</div></div>
+        <div class="imp-n"><div class="imp-big">2.1<em>T</em></div><div class="imp-lbl">Food waste prevented</div></div>
+        <div class="imp-n"><div class="imp-big"><em>84</em></div><div class="imp-lbl">Verified NGO partners</div></div>
+        <div class="imp-n"><div class="imp-big">2,<em>400+</em></div><div class="imp-lbl">Active donors</div></div>
+        <div class="imp-n"><div class="imp-big"><em>98%</em></div><div class="imp-lbl">On-time delivery rate</div></div>
+        <div class="imp-n"><div class="imp-big">8,<em>500+</em></div><div class="imp-lbl">Beneficiaries served</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-sec">
+    <h2>Ready to make a difference?</h2>
+    <p>Join 2,400+ donors and 84 verified NGOs on SmartShare.</p>
+    <button class="btn btn-lg" style="background:#fff;color:var(--g);font-weight:800;font-size:16px" onclick="show('pg-login')">Create Free Account →</button>
+  </div>
+
+  <div class="footer">
+    <div class="footer-logo">● SmartShare</div>
+    <div class="footer-p">Turning surplus into support · Hackathon Prototype 2024</div>
+  </div>
+</div>
+
+<!-- ==================== LOGIN PAGE ==================== -->
+<div id="pg-login" class="page">
+  <div class="login-page">
+    <div class="login-card fi">
+      <div class="login-logo">SmartShare</div>
+      <div class="login-sub">Turning surplus into support</div>
+
+      <div style="margin-bottom:8px;font-size:11.5px;font-weight:700;color:var(--mt);letter-spacing:.5px">SELECT YOUR ROLE</div>
+      <div class="role-grid" id="role-grid">
+        <div class="role-chip sel" onclick="selRole(this,'donor')"><div class="rc-ico">🤲</div><div class="rc-n">Donor</div><div class="rc-d">Donate food, clothes, money</div></div>
+        <div class="role-chip" onclick="selRole(this,'ngo')"><div class="rc-ico">🏢</div><div class="rc-n">NGO / Shelter</div><div class="rc-d">Receive & manage donations</div></div>
+        <div class="role-chip" onclick="selRole(this,'volunteer')"><div class="rc-ico">🏍️</div><div class="rc-n">Volunteer</div><div class="rc-d">Pickup & delivery tasks</div></div>
+        <div class="role-chip" onclick="selRole(this,'admin')"><div class="rc-ico">🛡️</div><div class="rc-n">Admin</div><div class="rc-d">Manage & moderate platform</div></div>
+      </div>
+
+      <div class="demo-box">
+        <strong>Demo credentials:</strong><br/>
+        Email: <strong id="demo-email">donor@smartshare.in</strong> &nbsp;|&nbsp; Password: <strong>demo123</strong>
+      </div>
+
+      <div class="form-g">
+        <label class="f-lbl">Email</label>
+        <input class="f-inp" type="email" id="login-email" value="donor@smartshare.in"/>
+      </div>
+      <div class="form-g">
+        <label class="f-lbl">Password</label>
+        <input class="f-inp" type="password" value="demo123"/>
+      </div>
+      <button class="btn btn-g" style="width:100%;justify-content:center;padding:12px;font-size:15px" onclick="doLogin()">Sign In →</button>
+      <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--mt)">
+        New? <span style="color:var(--g);font-weight:600;cursor:pointer" onclick="toast('Registration open — use any demo role to explore!','ti','📝')">Create account</span>
+        &nbsp;·&nbsp;
+        <span style="color:var(--g);font-weight:600;cursor:pointer" onclick="show('pg-home')">← Back to Home</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DONOR DASHBOARD ==================== -->
+<div id="pg-donor" class="page">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sb-brand"><div class="sb-logo"><span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block"></span>SmartShare</div><div class="sb-role">🤲 Donor Portal</div></div>
+      <nav class="sb-nav">
+        <button class="sb-it act" id="d-ov" onclick="dTab('ov')"><span class="sb-ic">📊</span>Overview</button>
+        <button class="sb-it" id="d-cr" onclick="dTab('cr')"><span class="sb-ic">➕</span>New Donation</button>
+        <button class="sb-it" id="d-hi" onclick="dTab('hi')"><span class="sb-ic">📋</span>My Donations</button>
+        <button class="sb-it" id="d-nb" onclick="dTab('nb')"><span class="sb-ic">🗺️</span>Nearby NGOs</button>
+        <button class="sb-it" id="d-ai" onclick="dTab('ai')"><span class="sb-ic">🤖</span>AI Matching</button>
+        <div class="sb-sec">Account</div>
+        <button class="sb-it" onclick="toast('Profile settings — coming in v2!','ti','👤')"><span class="sb-ic">👤</span>Profile</button>
+        <button class="sb-it" onclick="show('pg-login')"><span class="sb-ic">🚪</span>Logout</button>
+      </nav>
+    </aside>
+    <div class="dash-content" id="donor-content"></div>
+  </div>
+</div>
+
+<!-- ==================== NGO DASHBOARD ==================== -->
+<div id="pg-ngo" class="page">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sb-brand"><div class="sb-logo"><span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block"></span>SmartShare</div><div class="sb-role">🏢 NGO Portal</div></div>
+      <nav class="sb-nav">
+        <button class="sb-it act" id="n-ov" onclick="nTab('ov')"><span class="sb-ic">📊</span>Overview</button>
+        <button class="sb-it" id="n-in" onclick="nTab('in')"><span class="sb-ic">📦</span>Incoming Donations</button>
+        <button class="sb-it" id="n-av" onclick="nTab('av')"><span class="sb-ic">🔍</span>Available Donations</button>
+        <button class="sb-it" id="n-pr" onclick="nTab('pr')"><span class="sb-ic">🏢</span>NGO Profile</button>
+        <div class="sb-sec">Account</div>
+        <button class="sb-it" onclick="show('pg-login')"><span class="sb-ic">🚪</span>Logout</button>
+      </nav>
+    </aside>
+    <div class="dash-content" id="ngo-content"></div>
+  </div>
+</div>
+
+<!-- ==================== VOLUNTEER DASHBOARD ==================== -->
+<div id="pg-volunteer" class="page">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sb-brand"><div class="sb-logo"><span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block"></span>SmartShare</div><div class="sb-role">🏍️ Volunteer Portal</div></div>
+      <nav class="sb-nav">
+        <button class="sb-it act" id="v-tk" onclick="vTab('tk')"><span class="sb-ic">📦</span>My Tasks</button>
+        <button class="sb-it" id="v-fi" onclick="vTab('fi')"><span class="sb-ic">🔍</span>Find Tasks</button>
+        <div class="sb-sec">Account</div>
+        <button class="sb-it" onclick="show('pg-login')"><span class="sb-ic">🚪</span>Logout</button>
+      </nav>
+    </aside>
+    <div class="dash-content" id="vol-content"></div>
+  </div>
+</div>
+
+<!-- ==================== ADMIN DASHBOARD ==================== -->
+<div id="pg-admin" class="page">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sb-brand"><div class="sb-logo"><span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block"></span>SmartShare</div><div class="sb-role">🛡️ Admin Panel</div></div>
+      <nav class="sb-nav">
+        <button class="sb-it act" id="a-ov" onclick="aTab('ov')"><span class="sb-ic">📊</span>Dashboard</button>
+        <button class="sb-it" id="a-ve" onclick="aTab('ve')"><span class="sb-ic">✅</span>Verify NGOs</button>
+        <button class="sb-it" id="a-do" onclick="aTab('do')"><span class="sb-ic">📋</span>All Donations</button>
+        <button class="sb-it" id="a-us" onclick="aTab('us')"><span class="sb-ic">👥</span>Users</button>
+        <button class="sb-it" id="a-im" onclick="aTab('im')"><span class="sb-ic">📈</span>Analytics</button>
+        <div class="sb-sec">System</div>
+        <button class="sb-it" onclick="show('pg-login')"><span class="sb-ic">🚪</span>Logout</button>
+      </nav>
+    </aside>
+    <div class="dash-content" id="admin-content"></div>
+  </div>
+</div>
+
+<!-- ==================== IMPACT PAGE ==================== -->
+<div id="pg-impact" class="page">
+  <nav class="nav">
+    <div class="logo"><span class="logo-dot"></span>SmartShare</div>
+    <div class="nav-r">
+      <button class="btn btn-s" onclick="show('pg-home')">← Home</button>
+      <button class="btn btn-g" onclick="show('pg-login')">Get Started</button>
+    </div>
+  </nav>
+  <div id="impact-content" class="main" style="max-width:1100px;margin:0 auto;padding:32px 24px"></div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+// ===================== DATA =====================
+const NGOS=[
+  {id:'N01',name:'Asha Orphanage',type:'Orphanage',city:'T.Nagar, Chennai',cap:78,needs:['Food','Clothes'],verified:true,dist:'1.2 km',ben:120,urg:'High'},
+  {id:'N02',name:'GreenHope NGO',type:'NGO',city:'Velachery, Chennai',cap:55,needs:['Clothes','Money'],verified:true,dist:'2.8 km',ben:85,urg:'Medium'},
+  {id:'N03',name:'Senior Care Trust',type:'Old Age Home',city:'Adyar, Chennai',cap:40,needs:['Food','Money'],verified:true,dist:'3.4 km',ben:60,urg:'High'},
+  {id:'N04',name:'Nanhi Dua Shelter',type:'Shelter',city:'Tambaram, Chennai',cap:68,needs:['Food'],verified:true,dist:'4.1 km',ben:200,urg:'Critical'},
+  {id:'N05',name:'Hope Hands NGO',type:'NGO',city:'Porur, Chennai',cap:52,needs:['Clothes','Food'],verified:false,dist:'5.0 km',ben:95,urg:'Medium'},
+  {id:'N06',name:'Surya Children Home',type:'Orphanage',city:'Chrompet, Chennai',cap:88,needs:['Food','Money'],verified:true,dist:'6.2 km',ben:145,urg:'Low'},
+  {id:'N07',name:'Vatsalya Old Age Home',type:'Old Age Home',city:'Kodambakkam',cap:35,needs:['Food','Clothes'],verified:true,dist:'7.0 km',ben:48,urg:'Medium'},
+  {id:'N08',name:'Rainbow Community Shelter',type:'Shelter',city:'Guindy, Chennai',cap:71,needs:['Food','Money'],verified:true,dist:'8.4 km',ben:175,urg:'High'},
+];
+const DONORS=[
+  {id:'D01',name:'Hotel Sunrise',type:'Restaurant',don:47,meals:2800},
+  {id:'D02',name:'Priya Sharma',type:'Individual',don:12},
+  {id:'D03',name:'FashionForward Retail',type:'Retailer',don:8,clothes:640},
+  {id:'D04',name:'Rajeev Catering Co.',type:'Caterer',don:22,meals:1100},
+  {id:'D05',name:'WedWear Events',type:'Event Org',don:6,clothes:480},
+  {id:'D06',name:'Tech Corp CSR',type:'Corporate',don:4,amt:150000},
+  {id:'D07',name:'Meena Krishnan',type:'Individual',don:9,meals:200},
+  {id:'D08',name:'BigBazaar Southcity',type:'Retailer',don:15,clothes:890},
+  {id:'D09',name:'Rotary Club Chennai',type:'Club',don:11,amt:80000},
+  {id:'D10',name:'Anand Sweets',type:'Restaurant',don:18,meals:950},
+];
+const DONATIONS=[
+  {id:'DON-001',title:'Biryani & Curry (Event Leftover)',type:'Food',qty:'120 plates',status:'Delivered',ngo:'Asha Orphanage',donor:'Hotel Sunrise',date:'Jun 12',urg:'High',exp:'3h',score:96},
+  {id:'DON-002',title:'Winter Clothes Collection',type:'Clothes',qty:'85 pieces',status:'In Transit',ngo:'GreenHope NGO',donor:'FashionForward',date:'Jun 13',urg:'Medium',score:81},
+  {id:'DON-003',title:'CSR Monthly Fund Transfer',type:'Money',qty:'—',status:'Accepted',ngo:'Senior Care Trust',donor:'Tech Corp CSR',date:'Jun 14',urg:'Low',score:74,amt:50000},
+  {id:'DON-004',title:'Rice, Dal & Vegetables (50kg)',type:'Food',qty:'50 kg',status:'Matched',ngo:'Nanhi Dua Shelter',donor:'Rajeev Catering',date:'Jun 14',urg:'High',exp:'6h',score:91},
+  {id:'DON-005',title:'Men\'s Office Formals',type:'Clothes',qty:'40 pieces',status:'Posted',ngo:'Pending Match',donor:'WedWear Events',date:'Jun 15',urg:'Low',score:65},
+  {id:'DON-006',title:'Idli & Sambar (500 portions)',type:'Food',qty:'500 portions',status:'Delivered',ngo:'Nanhi Dua Shelter',donor:'Anand Sweets',date:'Jun 11',urg:'Critical',exp:'1h',score:98},
+  {id:'DON-007',title:'Children\'s Books & Stationery',type:'Clothes',qty:'60 units',status:'Accepted',ngo:'Surya Children Home',donor:'Priya Sharma',date:'Jun 13',urg:'Low',score:72},
+  {id:'DON-008',title:'Monthly Grocery Essentials',type:'Food',qty:'80 kg',status:'Delivered',ngo:'Vatsalya Old Age Home',donor:'BigBazaar',date:'Jun 10',urg:'Medium',score:85},
+  {id:'DON-009',title:'Community Welfare Fund',type:'Money',qty:'—',status:'Delivered',ngo:'Rainbow Shelter',donor:'Rotary Club',date:'Jun 09',urg:'Low',score:78,amt:80000},
+  {id:'DON-010',title:'Wedding Feast Surplus',type:'Food',qty:'200 plates',status:'In Transit',ngo:'Hope Hands NGO',donor:'WedWear Events',date:'Jun 15',urg:'Critical',exp:'2h',score:93},
+];
+const VOL_TASKS=[
+  {id:'T01',don:'Biryani & Curry',from:'Hotel Sunrise, T.Nagar',to:'Asha Orphanage, Adyar',status:'In Transit',type:'Food',dist:'3.2 km',eta:'18 min'},
+  {id:'T02',don:'Winter Clothes Lot',from:'FashionForward, Anna Nagar',to:'GreenHope NGO, Velachery',status:'Picked Up',type:'Clothes',dist:'6.8 km',eta:'32 min'},
+  {id:'T03',don:'Rice & Dal 50kg',from:'Rajeev Stores, Mylapore',to:'Nanhi Dua, Tambaram',status:'Assigned',type:'Food',dist:'11.2 km',eta:'48 min'},
+];
+const PENDING_NGOS=[
+  {name:'Hope Hands NGO',city:'Porur, Chennai',type:'NGO',docs:'Registration cert, PAN',applied:'Jun 14'},
+  {name:'Sunrise Kids Home',city:'Bangalore',type:'Orphanage',docs:'Trust deed, 80G cert',applied:'Jun 13'},
+  {name:'Elders First',city:'Hyderabad',type:'Old Age Home',docs:'Society cert, Aadhar',applied:'Jun 12'},
+];
+let pendingNGOs=[...PENDING_NGOS];
+let volTasks=[...VOL_TASKS];
+let incomingDons=[...DONATIONS.filter(d=>d.status!=='Delivered')];
+
+// ===================== TOAST =====================
+let tid=0;
+function toast(msg,cls='ts',ico='✅'){
+  const id=++tid;
+  const w=document.getElementById('toast-wrap');
+  const el=document.createElement('div');
+  el.className=`toast ${cls}`;
+  el.id='t'+id;
+  el.innerHTML=`<span class="t-ico">${ico}</span><span class="t-msg">${msg}</span><button class="t-x" onclick="rmToast(${id})">✕</button>`;
+  w.appendChild(el);
+  setTimeout(()=>rmToast(id),4000);
+}
+function rmToast(id){const e=document.getElementById('t'+id);if(e)e.remove();}
+
+// ===================== NAVIGATION =====================
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  window.scrollTo(0,0);
+}
+function scrollTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+
+// ===================== LOGIN =====================
+let curRole='donor';
+const roleEmails={donor:'donor@smartshare.in',ngo:'ngo@smartshare.in',volunteer:'vol@smartshare.in',admin:'admin@smartshare.in'};
+function selRole(el,r){
+  document.querySelectorAll('.role-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  curRole=r;
+  document.getElementById('demo-email').textContent=roleEmails[r];
+  document.getElementById('login-email').value=roleEmails[r];
+}
+function doLogin(){
+  toast(`👋 Welcome! Loading ${curRole} dashboard...`,'ts','✅');
+  setTimeout(()=>{
+    const map={donor:'pg-donor',ngo:'pg-ngo',volunteer:'pg-volunteer',admin:'pg-admin'};
+    show(map[curRole]);
+    if(curRole==='donor') dTab('ov');
+    else if(curRole==='ngo') nTab('ov');
+    else if(curRole==='volunteer') vTab('tk');
+    else if(curRole==='admin') aTab('ov');
+  },500);
+}
+
+// ===================== HELPERS =====================
+function bdg(t,cls){return `<span class="bdg bdg-${cls}"><span class="bdg-dot"></span>${t}</span>`;}
+function statusBdg(s){const m={Delivered:'g','In Transit':'o',Accepted:'b',Matched:'b',Posted:'gr','Pending Match':'gr',Assigned:'p','Picked Up':'o',Critical:'r',High:'r',Medium:'o',Low:'gr',Active:'g','On Task':'b','Verified':'g','Pending':'o'};return bdg(s,m[s]||'gr');}
+function typeBdg(t){const ic={Food:'🍽️',Clothes:'🧥',Money:'💰'};const cl={Food:'g',Clothes:'o',Money:'b'};return bdg(`${ic[t]||''} ${t}`,cl[t]||'gr');}
+function capBar(pct,warn,crit){return `<div class="cap-b"><div class="cap-f${crit?' cr':warn?' w':''}" style="width:${pct}%"></div></div>`;}
+function mapMock(h=200){
+  return `<div class="card" style="padding:0;overflow:hidden"><div class="map-box" style="height:${h}px">
+    <div class="map-grid-bg"></div>
+    <div class="map-road" style="height:2px;top:38%;left:0;right:0"></div>
+    <div class="map-road" style="height:2px;top:65%;left:0;right:0"></div>
+    <div class="map-road" style="width:2px;left:38%;top:0;bottom:0"></div>
+    <div class="map-road" style="width:2px;left:68%;top:0;bottom:0"></div>
+    <div class="pulse-ring" style="width:50px;height:50px;top:calc(50% - 25px);left:calc(50% - 25px)"></div>
+    <div class="map-pin" style="background:var(--o);top:50%;left:50%;margin-top:-13px;margin-left:-13px"><span>📍</span></div>
+    <div class="map-lbl" style="top:34%;left:50%">You</div>
+    <div class="map-pin" style="background:var(--g);top:28%;left:60%;"><span>🏢</span></div>
+    <div class="map-lbl" style="top:18%;left:59%">Asha NGO</div>
+    <div class="map-pin" style="background:var(--g);top:63%;left:24%;"><span>🏢</span></div>
+    <div class="map-lbl" style="top:55%;left:22%">GreenHope</div>
+    <div class="map-pin" style="background:#3b82f6;top:22%;left:75%;"><span>🏢</span></div>
+    <div class="map-lbl" style="top:12%;left:72%">Senior Care</div>
+  </div></div>`;
+}
+function timeline(steps,current){
+  const idx=steps.indexOf(current);
+  return `<div class="tl">${steps.map((s,i)=>{
+    const done=i<idx,active=i===idx;
+    return (i<steps.length-1)?
+      `<div class="tl-s"><div class="tl-d ${done?'tl-dn':active?'tl-ac':'tl-pd'}">${done?'✓':i+1}</div><div class="tl-lb ${done?'tl-dn-lb':active?'tl-ac-lb':''}">${s}</div></div><div class="tl-ln ${done?'tl-dn-ln':''}"></div>`
+      :`<div class="tl-s"><div class="tl-d ${done?'tl-dn':active?'tl-ac':'tl-pd'}">${done?'✓':i+1}</div><div class="tl-lb ${done?'tl-dn-lb':active?'tl-ac-lb':''}">${s}</div></div>`;
+  }).join('')}</div>`;
+}
+function topbar(title,sub,actions=''){
+  return `<div class="topbar"><div><div class="tb-title">${title}</div>${sub?`<div class="tb-sub">${sub}</div>`:''}</div><div class="tb-r">${actions}<div class="notif-btn" onclick="toast('You have 3 new notifications','ti','🔔')"><span>🔔</span><div class="n-dot"></div></div><div class="av">R</div></div></div>`;
+}
+function metrics(list){
+  return `<div class="m4">${list.map(m=>`<div class="mc c${m.c}"><div class="mc-ico">${m.ico}</div><div class="mc-lbl">${m.lbl}</div><div class="mc-val">${m.val}</div><div class="mc-ch">${m.ch}</div></div>`).join('')}</div>`;
+}
+
+// ===================== DONOR TABS =====================
+function dTab(t){
+  ['ov','cr','hi','nb','ai'].forEach(x=>{const el=document.getElementById('d-'+x);if(el)el.classList.remove('act');});
+  const el=document.getElementById('d-'+t);if(el)el.classList.add('act');
+  const c=document.getElementById('donor-content');
+  if(t==='ov') c.innerHTML=dOverview();
+  else if(t==='cr') c.innerHTML=dCreate();
+  else if(t==='hi') c.innerHTML=dHistory();
+  else if(t==='nb') c.innerHTML=dNearby();
+  else if(t==='ai') c.innerHTML=dMatching();
+}
+function dOverview(){
+  return topbar('Good morning, Ramesh! 👋','Your donation activity overview',`<button class="btn btn-g btn-sm" onclick="dTab('cr')">+ New Donation</button>`)
+  +`<div class="main fi">`
+  +metrics([
+    {ico:'📦',lbl:'Total Donations',val:'14',ch:'↑ +3 this week',c:'g'},
+    {ico:'🍽️',lbl:'Meals Donated',val:'847',ch:'↑ +12% vs last month',c:'o'},
+    {ico:'🧥',lbl:'Clothes Donated',val:'125',ch:'↑ +5 this week',c:'b'},
+    {ico:'⭐',lbl:'Impact Score',val:'94',ch:'Top 5% donor',c:'p'},
+  ])
+  +`<div class="g2 mb20">
+    <div class="tw">
+      <div class="tw-h"><span class="tw-t">Recent Donations</span>${statusBdg('Active')}</div>
+      <table><thead><tr><th>Title</th><th>Type</th><th>Status</th><th>NGO</th></tr></thead><tbody>
+      ${DONATIONS.slice(0,5).map(d=>`<tr><td class="td-m">${d.title.substring(0,28)}…</td><td>${typeBdg(d.type)}</td><td>${statusBdg(d.status)}</td><td style="font-size:12.5px;color:var(--mt)">${d.ngo}</td></tr>`).join('')}
+      </tbody></table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-t" style="display:flex;justify-content:space-between">${`Live Tracking — DON-002`}<span>${statusBdg('In Transit')}</span></div>
+        <div style="font-size:13px;color:var(--mt);margin-bottom:14px">Winter Clothes Collection → GreenHope NGO</div>
+        ${timeline(['Posted','Matched','Accepted','In Transit','Delivered'],'In Transit')}
+      </div>
+      <div class="card">
+        <div class="card-t">Notifications</div>
+        <div class="nf-it"><div class="nf-d" style="background:var(--g)"></div><div><div class="nf-tx">Asha Orphanage accepted your Biryani donation</div><div class="nf-tm">2 hours ago</div></div></div>
+        <div class="nf-it"><div class="nf-d" style="background:var(--o)"></div><div><div class="nf-tx">Volunteer Arjun picked up Winter Clothes — ETA 18 min</div><div class="nf-tm">45 mins ago</div></div></div>
+        <div class="nf-it"><div class="nf-d" style="background:var(--g)"></div><div><div class="nf-tx">Your impact score increased to 94 🎉</div><div class="nf-tm">1 day ago</div></div></div>
+      </div>
+    </div>
+  </div></div>`;
+}
+let dtype='Food';
+function dCreate(){
+  return topbar('Create Donation','Fill in the details — AI will find the best match')
+  +`<div class="main fi"><div class="g2">
+  <div class="card">
+    <div class="card-t">Donation Details</div>
+    <div class="form-g">
+      <label class="f-lbl">Donation Type</label>
+      <div class="ttabs">
+        <div class="ttab${dtype==='Food'?' on':''}" onclick="setDtype('Food',this)"><span class="tt-i">🍽️</span><div class="tt-l">Food</div><div class="tt-d">Meals, groceries</div></div>
+        <div class="ttab${dtype==='Clothes'?' on':''}" onclick="setDtype('Clothes',this)"><span class="tt-i">🧥</span><div class="tt-l">Clothes</div><div class="tt-d">Wearables, fabric</div></div>
+        <div class="ttab${dtype==='Money'?' on':''}" onclick="setDtype('Money',this)"><span class="tt-i">💰</span><div class="tt-l">Money</div><div class="tt-d">Cash, transfer</div></div>
+      </div>
+    </div>
+    <div class="form-g"><label class="f-lbl">Title / Description</label><input class="f-inp" value="${dtype==='Food'?'200 plates of biryani & curry':dtype==='Clothes'?'Winter clothes — 80 pieces':'CSR Monthly Fund Transfer'}"/></div>
+    <div class="f-row">
+      <div class="form-g"><label class="f-lbl">Quantity</label><input class="f-inp" value="${dtype==='Food'?'200 plates':dtype==='Clothes'?'80 pieces':'₹25,000'}"/></div>
+      <div class="form-g"><label class="f-lbl">Category</label>
+        <select class="f-sel">${dtype==='Food'?'<option>Ready-to-eat</option><option>Raw groceries</option><option>Packaged food</option>':dtype==='Clothes'?'<option>Men\'s Wear</option><option>Women\'s Wear</option><option>Children\'s Clothing</option>':'<option>General Donation</option><option>CSR Fund</option><option>Emergency Relief</option>'}</select>
+      </div>
+    </div>
+    ${dtype==='Food'?`<div class="f-row"><div class="form-g"><label class="f-lbl">⏰ Expiry / Best Before</label><input class="f-inp" type="datetime-local" value="2024-06-15T22:00"/></div><div class="form-g"><label class="f-lbl">Food Condition</label><select class="f-sel"><option>Fresh (just cooked)</option><option>Same day prep</option><option>Pre-packaged</option></select></div></div>`:''}
+    <div class="form-g"><label class="f-lbl">Pickup Address</label><input class="f-inp" value="Hotel Sunrise, 14 GN Chetty Road, T.Nagar, Chennai — 600017"/></div>
+    <div class="f-row">
+      <div class="form-g"><label class="f-lbl">Urgency Level</label><select class="f-sel"><option>🔴 High — Pickup within 2 hrs</option><option>🟡 Medium — Within today</option><option>⚪ Low — Flexible</option></select></div>
+      <div class="form-g"><label class="f-lbl">Preferred NGO Type</label><select class="f-sel"><option>Any verified NGO</option><option>Orphanage only</option><option>Old Age Home</option><option>Shelter / Community</option></select></div>
+    </div>
+    <button class="btn btn-g" style="width:100%;justify-content:center;padding:13px;font-size:15px" onclick="submitDon()">🤖 Match & Post Donation</button>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card">
+      <div class="card-t">🤖 AI Pre-Match Preview</div>
+      ${NGOS.filter(n=>n.verified).slice(0,3).map((n,i)=>{
+        const scores=[96,87,74];
+        return `<div class="mc2${i===0?' best':''}">
+          ${i===0?'<div class="best-badge">★ AI Recommended</div>':''}
+          <div class="ms"><div class="ms-p">${scores[i]}%</div><div class="ms-w">MATCH</div></div>
+          <div class="mi">
+            <div class="mi-n">${n.name}</div>
+            <div class="mi-m"><span>📍 ${n.dist}</span><span>👥 ${n.ben}</span>${statusBdg(n.urg)}</div>
+            <div class="mi-tg">${n.needs.map(x=>`<span class="tag tg-g">${x}</span>`).join('')}${i===0?'<span class="tag tg-r">Urgent need</span>':''}</div>
+          </div>
+          <button class="btn btn-g btn-sm" onclick="toast('✅ Selected ${n.name}! Notifying them now...')">Select</button>
+        </div>`;
+      }).join('')}
+    </div>
+    ${mapMock(200)}
+  </div>
+  </div></div>`;
+}
+function setDtype(t,el){
+  dtype=t;
+  document.querySelectorAll('.ttab').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('donor-content').innerHTML=dCreate();
+}
+function submitDon(){
+  toast('🎉 Donation posted! AI matched 3 NGOs nearby.','ts','✅');
+  setTimeout(()=>toast('📩 Asha Orphanage notified — awaiting acceptance','ti','📦'),1200);
+  setTimeout(()=>{
+    document.getElementById('donor-content').innerHTML=`<div class="topbar"><div><div class="tb-title">Donation Posted!</div></div></div>
+    <div class="main fi"><div class="card" style="max-width:560px;margin:40px auto;text-align:center;padding:48px">
+      <div style="font-size:60px;margin-bottom:16px">🎉</div>
+      <h2 style="font-size:24px;font-weight:800;color:var(--navy);margin-bottom:10px">Donation Posted Successfully</h2>
+      <p style="color:var(--mt);margin-bottom:24px">Our AI engine matched your donation with 3 nearby NGOs. Asha Orphanage has been notified.</p>
+      <div style="background:var(--gl);border:1px solid #bbf7d0;border-radius:12px;padding:16px;margin-bottom:24px;font-size:13px;color:#15803d">
+        <strong>DON-011</strong> · Status: <strong>Matched → Awaiting Acceptance</strong>
+      </div>
+      <button class="btn btn-g" onclick="dtype='Food';dTab('cr')">+ Post Another Donation</button>
+    </div></div>`;
+  },2500);
+}
+function dHistory(){
+  return topbar('My Donations','Full history of your contributions')
+  +`<div class="main fi">
+  <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+    ${['All','Food','Clothes','Money'].map(f=>`<button class="btn btn-s btn-sm"${f==='All'?' style="background:var(--gl);color:var(--g);border-color:var(--g)"':''}>${f}</button>`).join('')}
+    <select class="f-sel" style="width:150px;padding:6px 10px;font-size:12.5px;margin-left:auto"><option>All Status</option><option>Delivered</option><option>In Transit</option><option>Posted</option></select>
+  </div>
+  <div class="tw">
+    <div class="tw-h"><span class="tw-t">All Donations</span><span style="font-size:13px;color:var(--mt)">${DONATIONS.length} donations</span></div>
+    <table><thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Qty</th><th>NGO</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody>
+    ${DONATIONS.map(d=>`<tr>
+      <td style="font-family:monospace;font-size:11.5px;color:var(--mt)">${d.id}</td>
+      <td class="td-m">${d.title.substring(0,26)}…</td>
+      <td>${typeBdg(d.type)}</td>
+      <td style="font-size:13px">${d.amt?'₹'+d.amt.toLocaleString():d.qty}</td>
+      <td style="font-size:12.5px;color:var(--mt)">${d.ngo}</td>
+      <td>${statusBdg(d.status)}</td>
+      <td style="font-size:12.5px;color:var(--mt)">${d.date}</td>
+      <td><button class="btn btn-s btn-xs" onclick="toast('📋 ${d.id}: ${d.title} — ${d.status}','ti','📦')">Details</button></td>
+    </tr>`).join('')}
+    </tbody></table>
+  </div></div>`;
+}
+function dNearby(){
+  return topbar('Nearby NGOs','Verified organizations near your location')
+  +`<div class="main fi"><div class="mb20">${mapMock(230)}</div>
+  <div class="g3">${NGOS.map(n=>`
+    <div class="ngoc">
+      <div class="flex mb16" style="gap:12px">
+        <div class="ngo-av" style="background:${n.verified?'var(--gl)':'var(--ol)'}">${n.name[0]}</div>
+        <div style="flex:1"><div style="font-size:14.5px;font-weight:700;color:var(--navy)">${n.name}</div><div style="font-size:12px;color:var(--mt)">${n.type} · ${n.city}</div></div>
+        ${n.verified?bdg('✓ Verified','g'):bdg('Pending','o')}
+      </div>
+      <div style="font-size:12.5px;color:var(--mt);margin-bottom:8px">📍 ${n.dist} &nbsp;·&nbsp; 👥 ${n.ben} beneficiaries</div>
+      <div style="font-size:12px;margin-bottom:4px">Capacity: ${n.cap}%</div>
+      ${capBar(n.cap,n.cap>70,n.cap>85)}
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin:10px 0">${n.needs.map(x=>`<span class="tag tg-g">${x}</span>`).join('')}<span class="tag tg-r">${n.urg} Need</span></div>
+      ${n.verified?`<button class="btn btn-g btn-sm" style="width:100%;justify-content:center" onclick="toast('📦 Creating donation for ${n.name}...')">Donate to this NGO</button>`:`<button class="btn btn-s btn-sm" style="width:100%;justify-content:center" disabled>Verification Pending</button>`}
+    </div>`).join('')}
+  </div></div>`;
+}
+function dMatching(){
+  return topbar('AI Matching Engine','Smart recommendations based on distance, urgency & need')
+  +`<div class="main fi">
+  <div style="background:var(--gl);border:1px solid #bbf7d0;border-radius:14px;padding:16px;margin-bottom:20px;display:flex;align-items:center;gap:12px">
+    <span style="font-size:28px">🤖</span>
+    <div><div style="font-size:15px;font-weight:700;color:var(--gd)">SmartMatch Algorithm — Active</div>
+    <div style="font-size:13px;color:#15803d">Scoring: Distance (35%) · Urgency (30%) · Type Match (20%) · NGO Capacity (15%)</div></div>
+    <div style="margin-left:auto">${bdg('Live','g')}</div>
+  </div>
+  <div class="g2">
+    <div>
+      <div class="card-t" style="margin-bottom:14px">Top Matches for: Rice & Dal (50kg) — HIGH Urgency</div>
+      ${NGOS.filter(n=>n.verified).map((n,i)=>{
+        const scores=[96,91,84,78,71,65,60];
+        const score=scores[i]||50;
+        return `<div class="mc2${i===0?' best':''}">
+          ${i===0?'<div class="best-badge">★ AI Recommended</div>':''}
+          <div class="ms" style="background:${score>=90?'var(--gl)':score>=70?'var(--ol)':'var(--bg)'}">
+            <div class="ms-p" style="color:${score>=90?'var(--g)':score>=70?'var(--o)':'var(--mt)'}">${score}%</div>
+            <div class="ms-w" style="color:${score>=90?'var(--g)':score>=70?'var(--o)':'var(--mt)'}">SCORE</div>
+          </div>
+          <div class="mi">
+            <div class="mi-n">${n.name}</div>
+            <div class="mi-m"><span>📍 ${n.dist}</span><span>👥 ${n.ben}</span>${statusBdg(n.urg)}</div>
+            <div class="mi-tg">${n.needs.map(x=>`<span class="tag tg-g">${x}</span>`).join('')}</div>
+          </div>
+          <button class="btn btn-g btn-sm" onclick="toast('✅ ${n.name} selected as match!')">Select</button>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      ${mapMock(260)}
+      <div class="card">
+        <div class="card-t">Scoring Breakdown</div>
+        ${[{l:'Distance Score',v:95},{l:'Type Match',v:100},{l:'Urgency Match',v:90},{l:'NGO Capacity',v:85}].map(s=>`
+          <div class="need-row"><div class="need-lbl"><span style="color:var(--sl)">${s.l}</span><span style="font-weight:700;color:var(--g)">${s.v}%</span></div>
+          ${capBar(s.v)}</div>`).join('')}
+      </div>
+    </div>
+  </div></div>`;
+}
+
+// ===================== NGO TABS =====================
+function nTab(t){
+  ['ov','in','av','pr'].forEach(x=>{const el=document.getElementById('n-'+x);if(el)el.classList.remove('act');});
+  const el=document.getElementById('n-'+t);if(el)el.classList.add('act');
+  const c=document.getElementById('ngo-content');
+  if(t==='ov') c.innerHTML=nOverview();
+  else if(t==='in') c.innerHTML=nIncoming();
+  else if(t==='av') c.innerHTML=nAvailable();
+  else if(t==='pr') c.innerHTML=nProfile();
+}
+function nOverview(){
+  return topbar('Asha Orphanage Dashboard','Chennai — Verified NGO Partner ✅',bdg('● Live','g'))
+  +`<div class="main fi">`
+  +metrics([
+    {ico:'📦',lbl:'Donations Received',val:'47',ch:'↑ +8 this week',c:'g'},
+    {ico:'✅',lbl:'Acceptance Rate',val:'92%',ch:'Excellent score',c:'o'},
+    {ico:'👥',lbl:'Beneficiaries Served',val:'380',ch:'This month',c:'b'},
+    {ico:'⏱️',lbl:'Avg Response Time',val:'4 min',ch:'↑ Improving',c:'p'},
+  ])
+  +`<div class="g2">
+    <div class="tw">
+      <div class="tw-h"><span class="tw-t">Incoming Requests</span>${bdg('3 new','o')}</div>
+      <table><thead><tr><th>Donation</th><th>Type</th><th>Qty</th><th>Urgency</th><th>Action</th></tr></thead><tbody>
+      ${[{t:'Rice & Dal (50kg)',type:'Food',q:'50 kg',u:'High'},{t:'Wedding Surplus',type:'Food',q:'80 plates',u:'Critical'},{t:'Kids Clothing Lot',type:'Clothes',q:'30 pieces',u:'Low'}].map(d=>`
+        <tr><td class="td-m">${d.t}</td><td>${typeBdg(d.type)}</td><td>${d.q}</td><td>${statusBdg(d.u)}</td>
+        <td style="display:flex;gap:6px">
+          <button class="btn btn-s btn-xs" style="background:var(--gl);color:var(--g);border-color:#bbf7d0" onclick="toast('✅ Accepted: ${d.t}! Volunteer being assigned.','ts','✅')">Accept</button>
+          <button class="btn btn-d btn-xs" onclick="toast('❌ Rejected: ${d.t}','tw','⚠️')">Reject</button>
+        </td></tr>`).join('')}
+      </tbody></table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-t">Current Needs Priority</div>
+        ${[{l:'Food (Critical)',v:87,c:true},{l:'Clothes (Moderate)',v:54,w:true},{l:'Money (Low)',v:28}].map(n=>`
+          <div class="need-row"><div class="need-lbl"><span style="color:var(--sl)">${n.l}</span><span style="font-weight:700;color:${n.c?'#dc2626':n.w?'var(--o)':'var(--g)'}">${n.v}%</span></div>
+          ${capBar(n.v,n.w,n.c)}</div>`).join('')}
+      </div>
+      <div class="card">
+        <div class="card-t">Activity Feed</div>
+        <div class="nf-it"><div class="nf-d" style="background:var(--g)"></div><div><div class="nf-tx">Biryani delivery confirmed — 120 plates received ✅</div><div class="nf-tm">2 hours ago</div></div></div>
+        <div class="nf-it"><div class="nf-d" style="background:var(--o)"></div><div><div class="nf-tx">New food donation matched — Rice & Dal 50kg</div><div class="nf-tm">15 mins ago</div></div></div>
+        <div class="nf-it"><div class="nf-d" style="background:var(--g)"></div><div><div class="nf-tx">Monthly report: 47 donations received 📊</div><div class="nf-tm">Yesterday</div></div></div>
+      </div>
+    </div>
+  </div></div>`;
+}
+function nIncoming(){
+  return topbar('Incoming Donations','Accept or reject donation requests')
+  +`<div class="main fi" id="incoming-list">
+  ${incomingDons.length?incomingDons.map(d=>`
+    <div class="mc2" style="margin-bottom:12px" id="don-${d.id}">
+      <div class="ms" style="background:${d.type==='Food'?'var(--gl)':d.type==='Clothes'?'var(--ol)':'#eff6ff'}">
+        <div style="font-size:22px">${d.type==='Food'?'🍽️':d.type==='Clothes'?'🧥':'💰'}</div>
+      </div>
+      <div class="mi">
+        <div class="mi-n">${d.title}</div>
+        <div class="mi-m"><span>👤 ${d.donor}</span><span>📦 ${d.amt?'₹'+d.amt.toLocaleString():d.qty}</span>${d.exp?`<span class="tag tg-r">⏱ Expires in ${d.exp}</span>`:''}${statusBdg(d.urg)}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn btn-g btn-sm" onclick="acceptDon('${d.id}','${d.title}')">Accept</button>
+        <button class="btn btn-d btn-sm" onclick="rejectDon('${d.id}','${d.title}')">Reject</button>
+      </div>
+    </div>`).join(''):`<div style="text-align:center;padding:60px;color:var(--mt)"><div style="font-size:48px;margin-bottom:12px">📭</div><div style="font-size:16px;font-weight:600">No pending donations</div><div style="font-size:13px;margin-top:4px">All requests have been processed.</div></div>`}
+  </div>`;
+}
+function acceptDon(id,title){
+  toast(`✅ Accepted: ${title}! Assigning volunteer...`,'ts','✅');
+  const el=document.getElementById('don-'+id);if(el){el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300);}
+  incomingDons=incomingDons.filter(d=>d.id!==id);
+}
+function rejectDon(id,title){
+  toast(`❌ Rejected: ${title}`,'tw','⚠️');
+  const el=document.getElementById('don-'+id);if(el){el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300);}
+  incomingDons=incomingDons.filter(d=>d.id!==id);
+}
+function nAvailable(){
+  return topbar('Available Donations','Browse donations near you')
+  +`<div class="main fi">
+  <div class="tw">
+    <div class="tw-h"><span class="tw-t">Nearby Donations</span><select class="f-sel" style="width:130px;padding:6px 10px;font-size:12.5px"><option>All Types</option><option>Food</option><option>Clothes</option><option>Money</option></select></div>
+    <table><thead><tr><th>Donation</th><th>Type</th><th>Qty</th><th>Donor</th><th>Urgency</th><th>Score</th><th>Action</th></tr></thead><tbody>
+    ${DONATIONS.map(d=>`<tr>
+      <td class="td-m">${d.title.substring(0,28)}…</td>
+      <td>${typeBdg(d.type)}</td>
+      <td style="font-size:13px">${d.amt?'₹'+d.amt.toLocaleString():d.qty}</td>
+      <td style="font-size:12.5px;color:var(--mt)">${d.donor}</td>
+      <td>${statusBdg(d.urg)}</td>
+      <td><span style="font-size:15px;font-weight:800;color:var(--g)">${d.score}%</span></td>
+      <td><button class="btn btn-g btn-xs" onclick="toast('✅ Claimed: ${d.title}!')">Claim</button></td>
+    </tr>`).join('')}
+    </tbody></table>
+  </div></div>`;
+}
+function nProfile(){
+  return topbar('NGO Profile','Manage your organization details')
+  +`<div class="main fi"><div class="g2">
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+      <div style="width:64px;height:64px;border-radius:18px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:28px">🏢</div>
+      <div><div style="font-size:20px;font-weight:800;color:var(--navy)">Asha Orphanage</div><div style="display:flex;gap:8px;margin-top:6px">${bdg('✓ Verified','g')}${bdg('Orphanage','b')}</div></div>
+    </div>
+    ${[['City','T.Nagar, Chennai'],['Founded','2008'],['Beneficiaries','120 children'],['Contact','asha@orphanage.in'],['Phone','+91 98400 XXXXX'],['Registration','NGO/2008/TN/001234']].map(([l,v])=>`<div class="profile-row"><div class="pr-l">${l}</div><div class="pr-v">${v}</div></div>`).join('')}
+    <button class="btn btn-s" style="margin-top:12px" onclick="toast('Profile update saved!','ts','✅')">Edit Profile</button>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card">
+      <div class="card-t">Current Needs</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px">${['Food','Clothes','Medicines','School Supplies','Blankets'].map(n=>`<span class="tag tg-g" style="padding:5px 12px;font-size:12.5px">${n}</span>`).join('')}</div>
+      <button class="btn btn-s btn-sm" onclick="toast('Needs updated!','ts','✅')">Update Needs</button>
+    </div>
+    <div class="card">
+      <div class="card-t">Documents Verified</div>
+      ${['Registration Certificate','PAN Card','80G Certificate','Address Proof','Annual Report 2023'].map(d=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--br2)"><span style="color:var(--g);font-weight:700">✓</span><span style="font-size:13px">${d}</span></div>`).join('')}
+    </div>
+  </div>
+  </div></div>`;
+}
+
+// ===================== VOLUNTEER TABS =====================
+function vTab(t){
+  ['tk','fi'].forEach(x=>{const el=document.getElementById('v-'+x);if(el)el.classList.remove('act');});
+  const el=document.getElementById('v-'+t);if(el)el.classList.add('act');
+  const c=document.getElementById('vol-content');
+  if(t==='tk') c.innerHTML=vTasks();
+  else if(t==='fi') c.innerHTML=vFind();
+}
+const taskFlow=['Assigned','Picked Up','In Transit','Delivered'];
+function vTasks(){
+  return topbar('My Tasks','Your active pickup & delivery tasks')
+  +`<div class="main fi">`
+  +metrics([
+    {ico:'📦',lbl:'Active Tasks',val:'3',ch:'2 urgent',c:'o'},
+    {ico:'✅',lbl:'Completed Today',val:'5',ch:'Great work!',c:'g'},
+    {ico:'⭐',lbl:'Your Rating',val:'4.9',ch:'Top volunteer',c:'b'},
+    {ico:'📍',lbl:'km This Week',val:'84',ch:'+12 today',c:'p'},
+  ])
+  +`<div id="vol-tasks-list">${renderVolTasks()}</div></div>`;
+}
+function renderVolTasks(){
+  return volTasks.map(t=>`
+    <div class="task-card" id="vt-${t.id}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div style="font-size:16px;font-weight:800;color:var(--navy)">${t.don}</div>
+          <div style="display:flex;gap:7px;margin-top:7px;flex-wrap:wrap">${typeBdg(t.type)}${statusBdg(t.status)}<span class="tag tg-b">📍 ${t.dist}</span><span class="tag tg-g">⏱ ETA ${t.eta}</span></div>
+        </div>
+        ${t.status!=='Delivered'?`<button class="btn btn-g btn-sm" onclick="advTask('${t.id}')">→ Mark ${taskFlow[taskFlow.indexOf(t.status)+1]||'Done'}</button>`:`<span class="tag tg-g" style="padding:7px 14px;font-size:13px">✅ Delivered</span>`}
+      </div>
+      <div class="route-r"><div class="r-dot" style="background:var(--o)"></div><div style="font-size:13px;font-weight:600;color:var(--navy)">${t.from}</div><div class="r-line"></div><div class="r-dot" style="background:var(--g)"></div><div style="font-size:13px;font-weight:600;color:var(--navy)">${t.to}</div></div>
+      <div style="margin-top:14px">${timeline(taskFlow,t.status)}</div>
+    </div>`).join('');
+}
+function advTask(id){
+  const t=volTasks.find(x=>x.id===id);if(!t)return;
+  const i=taskFlow.indexOf(t.status);
+  if(i<taskFlow.length-1){
+    t.status=taskFlow[i+1];
+    toast(`📦 ${t.don} → ${t.status}`,t.status==='Delivered'?'ts':'ti',t.status==='Delivered'?'🎉':'🔄');
+    const el=document.getElementById('vol-tasks-list');if(el)el.innerHTML=renderVolTasks();
+  }
+}
+function vFind(){
+  return topbar('Find Tasks','Available pickup tasks near you')
+  +`<div class="main fi"><div class="tw">
+  <div class="tw-h"><span class="tw-t">Available Tasks</span>${bdg('6 open','g')}</div>
+  <table><thead><tr><th>Donation</th><th>Type</th><th>From</th><th>To</th><th>Distance</th><th>Action</th></tr></thead><tbody>
+  ${DONATIONS.filter(d=>d.status==='Matched'||d.status==='Accepted').map(d=>`<tr>
+    <td class="td-m">${d.title.substring(0,24)}…</td>
+    <td>${typeBdg(d.type)}</td>
+    <td style="font-size:12.5px;color:var(--mt)">${d.donor}</td>
+    <td style="font-size:12.5px;color:var(--mt)">${d.ngo}</td>
+    <td><span class="tag tg-b">~${Math.floor(Math.random()*8+2)+2} km</span></td>
+    <td><button class="btn btn-g btn-xs" onclick="toast('🚴 Task accepted: ${d.title}! Check My Tasks.','ts','🚴')">Accept Task</button></td>
+  </tr>`).join('')}
+  </tbody></table>
+  </div></div>`;
+}
+
+// ===================== ADMIN TABS =====================
+function aTab(t){
+  ['ov','ve','do','us','im'].forEach(x=>{const el=document.getElementById('a-'+x);if(el)el.classList.remove('act');});
+  const el=document.getElementById('a-'+t);if(el)el.classList.add('act');
+  const c=document.getElementById('admin-content');
+  if(t==='ov') c.innerHTML=aOverview();
+  else if(t==='ve') c.innerHTML=aVerify();
+  else if(t==='do') c.innerHTML=aAllDons();
+  else if(t==='us') c.innerHTML=aUsers();
+  else if(t==='im') c.innerHTML=aImpact();
+}
+function aOverview(){
+  return topbar('Admin Dashboard','Platform-wide overview and moderation')
+  +`<div class="main fi">`
+  +metrics([
+    {ico:'📦',lbl:'Total Donations',val:'301',ch:'↑ +24 today',c:'g'},
+    {ico:'🏢',lbl:'Verified NGOs',val:'84',ch:'3 pending',c:'o'},
+    {ico:'👥',lbl:'Active Users',val:'2,847',ch:'+47 this week',c:'b'},
+    {ico:'🚚',lbl:'Deliveries Today',val:'18',ch:'2 in transit',c:'p'},
+  ])
+  +`<div class="g2">
+  <div class="tw">
+    <div class="tw-h"><span class="tw-t">Recent Activity</span></div>
+    <table><thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Status</th></tr></thead><tbody>
+    ${DONATIONS.slice(0,6).map(d=>`<tr>
+      <td style="font-family:monospace;font-size:11.5px;color:var(--mt)">${d.id}</td>
+      <td class="td-m">${d.title.substring(0,22)}…</td>
+      <td>${typeBdg(d.type)}</td>
+      <td>${statusBdg(d.status)}</td>
+    </tr>`).join('')}
+    </tbody></table>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card">
+      <div class="card-t">Platform Health</div>
+      ${[['System Uptime','99.9%',true],['Avg Match Time','< 45 sec',true],['Delivery Success','98.2%',true],['NGO Response Rate','91.4%',true],['Pending Verifications','3',false]].map(([l,v,ok])=>`
+        <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--br2);font-size:13px">
+          <span style="color:var(--sl)">${l}</span><span style="font-weight:700;color:${ok?'var(--g)':'var(--o)'}">${v}</span>
+        </div>`).join('')}
+    </div>
+    <div class="card">
+      <div class="card-t">Quick Actions</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-g btn-sm" onclick="toast('📊 Report generated & sent!','ts','📊')">📊 Generate Report</button>
+        <button class="btn btn-s btn-sm" onclick="toast('📣 Broadcast sent to all NGOs','ti','📣')">📣 Broadcast to NGOs</button>
+        <button class="btn btn-s btn-sm" onclick="toast('⚠️ Urgent alert sent to volunteers','tw','⚠️')">⚠️ Send Alert</button>
+      </div>
+    </div>
+  </div>
+  </div></div>`;
+}
+function aVerify(){
+  return topbar('NGO Verification','Review and approve NGO registrations')
+  +`<div class="main fi"><div id="verify-list">${renderVerifyList()}</div></div>`;
+}
+function renderVerifyList(){
+  if(!pendingNGOs.length) return `<div style="text-align:center;padding:60px;color:var(--mt)"><div style="font-size:48px;margin-bottom:12px">🎉</div><div style="font-size:16px;font-weight:600">All NGOs verified!</div></div>`;
+  return pendingNGOs.map((n,i)=>`
+    <div class="card mb20" id="pngo-${i}">
+      <div style="display:flex;align-items:flex-start;gap:16px">
+        <div style="width:50px;height:50px;border-radius:14px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${n.type==='Orphanage'?'👶':n.type==='Old Age Home'?'👴':'🏢'}</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:7px">${n.name}</div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">${bdg(n.type,'gr')}${bdg('📍 '+n.city,'b')}${bdg('Applied: '+n.applied,'o')}</div>
+          <div style="font-size:13px;color:var(--sl)">📄 Documents: <strong>${n.docs}</strong></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          <button class="btn btn-g btn-sm" onclick="approvNGO(${i},'${n.name}')">✅ Approve</button>
+          <button class="btn btn-d btn-sm" onclick="rejectNGO(${i},'${n.name}')">Reject</button>
+          <button class="btn btn-s btn-sm" onclick="toast('📩 More info requested from ${n.name}','ti','📩')">More Info</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function approvNGO(i,name){toast(`✅ ${name} approved & verified!`,'ts','✅');pendingNGOs.splice(i,1);const el=document.getElementById('verify-list');if(el)el.innerHTML=renderVerifyList();}
+function rejectNGO(i,name){toast(`❌ ${name} rejected`,'tw','⚠️');pendingNGOs.splice(i,1);const el=document.getElementById('verify-list');if(el)el.innerHTML=renderVerifyList();}
+function aAllDons(){
+  return topbar('All Donations','Monitor and moderate platform donations')
+  +`<div class="main fi"><div class="tw">
+  <div class="tw-h"><span class="tw-t">Donation Registry</span>
+    <div style="display:flex;gap:8px">
+      <select class="f-sel" style="width:130px;padding:6px 10px;font-size:12.5px"><option>All Types</option><option>Food</option><option>Clothes</option><option>Money</option></select>
+      <select class="f-sel" style="width:140px;padding:6px 10px;font-size:12.5px"><option>All Status</option><option>Delivered</option><option>In Transit</option><option>Posted</option></select>
+    </div>
+  </div>
+  <table><thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Donor</th><th>NGO</th><th>Status</th><th>Urgency</th><th>Date</th></tr></thead><tbody>
+  ${DONATIONS.map(d=>`<tr>
+    <td style="font-family:monospace;font-size:11.5px;color:var(--mt)">${d.id}</td>
+    <td class="td-m">${d.title.substring(0,20)}…</td>
+    <td>${typeBdg(d.type)}</td>
+    <td style="font-size:12.5px;color:var(--mt)">${d.donor}</td>
+    <td style="font-size:12.5px;color:var(--mt)">${d.ngo}</td>
+    <td>${statusBdg(d.status)}</td>
+    <td>${statusBdg(d.urg)}</td>
+    <td style="font-size:12.5px;color:var(--mt)">${d.date}</td>
+  </tr>`).join('')}
+  </tbody></table>
+  </div></div>`;
+}
+function aUsers(){
+  return topbar('User Management','All registered users on the platform')
+  +`<div class="main fi"><div class="g2">
+  <div class="tw">
+    <div class="tw-h"><span class="tw-t">Top Donors</span></div>
+    <table><thead><tr><th>Name</th><th>Type</th><th>Donations</th><th>Status</th></tr></thead><tbody>
+    ${DONORS.map(d=>`<tr><td class="td-m">${d.name}</td><td>${bdg(d.type,'gr')}</td><td style="font-size:15px;font-weight:800;color:var(--g)">${d.don}</td><td>${statusBdg('Active')}</td></tr>`).join('')}
+    </tbody></table>
+  </div>
+  <div>
+    <div class="tw mb20">
+      <div class="tw-h"><span class="tw-t">Volunteers</span></div>
+      <table><thead><tr><th>Name</th><th>Tasks</th><th>Rating</th><th>Status</th></tr></thead><tbody>
+      ${[{n:'Arjun Patel',t:34,r:4.9},{n:'Divya Menon',t:28,r:4.8},{n:'Kiran Kumar',t:19,r:4.7},{n:'Sona Reddy',t:42,r:5.0},{n:'Tarun Seth',t:15,r:4.6},{n:'Nisha George',t:23,r:4.8}].map(v=>`<tr>
+        <td class="td-m">${v.n}</td>
+        <td style="font-size:15px;font-weight:800;color:var(--g)">${v.t}</td>
+        <td><span style="color:#f59e0b;font-weight:700">★ ${v.r}</span></td>
+        <td>${statusBdg('Active')}</td>
+      </tr>`).join('')}
+      </tbody></table>
+    </div>
+    <div class="tw">
+      <div class="tw-h"><span class="tw-t">NGO Partners</span></div>
+      <table><thead><tr><th>Name</th><th>Type</th><th>Ben.</th><th>Status</th></tr></thead><tbody>
+      ${NGOS.map(n=>`<tr><td class="td-m">${n.name}</td><td style="font-size:12.5px;color:var(--mt)">${n.type}</td><td style="font-weight:700;color:var(--g)">${n.ben}</td><td>${statusBdg(n.verified?'Verified':'Pending')}</td></tr>`).join('')}
+      </tbody></table>
+    </div>
+  </div>
+  </div></div>`;
+}
+function aImpact(){
+  document.getElementById('impact-content').innerHTML=renderImpact();
+  return topbar('Impact Analytics','Platform-wide impact metrics & charts')
+  +`<div class="main fi" id="impact-inner">${renderImpact()}</div>`;
+}
+function renderImpact(){
+  const bars=[{l:'Jan',v:210},{l:'Feb',v:280},{l:'Mar',v:310},{l:'Apr',v:290},{l:'May',v:350},{l:'Jun',v:380}];
+  const maxv=Math.max(...bars.map(b=>b.v));
+  return `
+  <div style="background:var(--navy);border-radius:20px;padding:28px;margin-bottom:22px">
+    <div style="font-size:19px;font-weight:800;color:#fff;margin-bottom:20px">🌍 SmartShare Platform Impact — June 2024</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      ${[{v:'14,892',u:'',l:'Meals Saved'},{v:'3,241',u:'',l:'Garments Redistributed'},{v:'₹6.2',u:'L',l:'Monetary Raised'},{v:'2.1',u:'T',l:'Food Waste Prevented'}].map(s=>`
+        <div style="border-left:3px solid #4ade80;padding-left:16px">
+          <div style="font-size:34px;font-weight:800;color:#fff;letter-spacing:-.3px">${s.v}<em style="color:#4ade80;font-style:normal">${s.u}</em></div>
+          <div style="font-size:12.5px;color:rgba(255,255,255,.4);margin-top:4px">${s.l}</div>
+        </div>`).join('')}
+    </div>
+  </div>
+  <div class="g2 mb20">
+    <div class="card">
+      <div class="card-t">Monthly Donations (2024)</div>
+      <div class="bar-chart">${bars.map(b=>`<div class="bc-col"><div class="bc-v">${b.v}</div><div class="bc-b" style="height:${Math.round((b.v/maxv)*120)}px;background:var(--g);opacity:.85"></div><div class="bc-l">${b.l}</div></div>`).join('')}</div>
+    </div>
+    <div class="card">
+      <div class="card-t">Donation Type Breakdown</div>
+      <div class="donut-wrap">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <circle cx="65" cy="65" r="50" fill="none" stroke="#f1f5f9" stroke-width="22"/>
+          <circle cx="65" cy="65" r="50" fill="none" stroke="#16a34a" stroke-width="22" stroke-dasharray="188 126" stroke-dashoffset="32" stroke-linecap="butt"/>
+          <circle cx="65" cy="65" r="50" fill="none" stroke="#ea580c" stroke-width="22" stroke-dasharray="94 220" stroke-dashoffset="-156" stroke-linecap="butt"/>
+          <circle cx="65" cy="65" r="50" fill="none" stroke="#3b82f6" stroke-width="22" stroke-dasharray="32 282" stroke-dashoffset="-250" stroke-linecap="butt"/>
+          <text x="65" y="60" text-anchor="middle" font-size="17" font-weight="800" fill="#0f172a" font-family="Plus Jakarta Sans,sans-serif">301</text>
+          <text x="65" y="74" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="Plus Jakarta Sans,sans-serif">donations</text>
+        </svg>
+        <div>${[{c:'#16a34a',l:'Food',p:'60%'},{c:'#ea580c',l:'Clothes',p:'30%'},{c:'#3b82f6',l:'Money',p:'10%'}].map(x=>`<div class="dl-item"><div class="dl-sq" style="background:${x.c}"></div><span style="color:var(--sl)">${x.l}</span><span style="font-weight:700;color:var(--navy);margin-left:8px">${x.p}</span></div>`).join('')}</div>
+      </div>
+    </div>
+  </div>
+  <div class="tw mb20">
+    <div class="tw-h"><span class="tw-t">🏆 Top Donor Leaderboard</span><span style="font-size:13px;color:var(--mt)">This month</span></div>
+    <table><thead><tr><th>Rank</th><th>Donor</th><th>Type</th><th>Donations</th><th>Primary Impact</th></tr></thead><tbody>
+    ${DONORS.slice(0,8).map((d,i)=>`<tr>
+      <td class="lb-rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</td>
+      <td class="td-m">${d.name}</td>
+      <td>${bdg(d.type,'gr')}</td>
+      <td style="font-size:17px;font-weight:800;color:var(--g)">${d.don}</td>
+      <td style="font-size:13px;color:var(--mt)">${d.meals?d.meals.toLocaleString()+' meals':d.clothes?d.clothes.toLocaleString()+' garments':d.amt?'₹'+d.amt.toLocaleString()+' raised':'—'}</td>
+    </tr>`).join('')}
+    </tbody></table>
+  </div>
+  <div class="g3">${NGOS.filter(n=>n.verified).slice(0,3).map(n=>`
+    <div class="ngoc">
+      <div class="flex mb16" style="gap:12px">
+        <div class="ngo-av" style="background:var(--gl)">${n.name[0]}</div>
+        <div><div style="font-size:14.5px;font-weight:700;color:var(--navy)">${n.name}</div><div style="font-size:12px;color:var(--mt)">${n.type}</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:var(--gl);border-radius:10px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--g)">${n.ben}</div><div style="font-size:11px;color:#15803d">Beneficiaries</div></div>
+        <div style="background:var(--ol);border-radius:10px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--o)">${n.cap}%</div><div style="font-size:11px;color:#c2410c">Capacity</div></div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+// ===================== IMPACT PAGE =====================
+function initImpact(){
+  document.getElementById('impact-content').innerHTML=renderImpact();
+}
+
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded',()=>{
+  // donor pre-render
+  setTimeout(()=>{if(document.getElementById('donor-content'))document.getElementById('donor-content').innerHTML=dOverview();},100);
+});
+window.show=show;
+</script>
+</body>
+</html>
